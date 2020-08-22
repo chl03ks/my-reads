@@ -10,12 +10,17 @@ export default function BooksSection({
 }) {
   const filterBooks = allBooks.filter(({ id }) => books.includes(id));
   return (
-    <div>
+    <div className="books-section">
       <h1>{title}</h1>
       <hr />
-      <div className="flex">
+      <div className="book-list flex">
         {filterBooks.map((book, index) => (
-          <Book key={book.id} {...book} shelf={shelf} onChange={onChange}></Book>
+          <Book
+            key={book.id}
+            {...book}
+            shelf={shelf}
+            onChange={onChange}
+          ></Book>
         ))}
       </div>
     </div>
