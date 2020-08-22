@@ -1,0 +1,12 @@
+.book {
+  width: 200px;
+  height: fit-content;
+  margin: 10px;
+}
+
+.book_img {
+  display: block;
+  margin: auto;
+  height: 250px;
+  width: 200px;
+}
