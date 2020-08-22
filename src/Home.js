@@ -1,18 +1,20 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import { getAll, update } from "./utils/BooksApi";
 import BooksSection from "./BooksSection";
 
-export default class Home extends Component {
-  state = {
+export default function Home() {
+  
+  const [state, setState] = useState({
     books: [],
     sections: {
       currentlyReading: [],
       wantToRead: [],
       read: [],
     },
-  };
-  componentDidMount() {
+  });
+
+  useEffect(() => {
     getAll().then((books) => {
       const sections = books.reduce(
         (prev, curr) => {
@@ -26,42 +28,40 @@ export default class Home extends Component {
           read: [],
         }
       );
-      this.setState({ books, sections });
+      setState({ books, sections });
     });
-  }
+  }, []);
 
-  updateSections = (book, shelf) => {
+  const updateSections = (book, shelf) => {
     update(book, shelf).then((shelfs) => {
-      this.setState({ sections: shelfs });
+      setState((prevState) => ({ ...prevState, sections: shelfs }));
     });
   };
 
-  toCapitalizedWords = (name) => {
+  const toCapitalizedWords = (name) => {
     var words = name.match(/[A-Za-z][a-z]*/g) || [];
-    return words.map(this.capitalize).join(" ");
+    return words.map(capitalize).join(" ");
   };
 
-  capitalize = (word) => {
+  const capitalize = (word) => {
     return word.charAt(0).toUpperCase() + word.substring(1);
   };
 
-  render() {
-    return (
-      <div>
-        <h1>My Reads</h1>
-        {Object.keys(this.state.sections).map((key) => {
-          return (
-            <BooksSection
-              key={key}
-              shelf={key}
-              title={this.toCapitalizedWords(key)}
-              books={this.state.sections[key]}
-              allBooks={this.state.books}
-              onChange={this.updateSections}
-            ></BooksSection>
-          );
-        })}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>My Reads</h1>
+      {Object.keys(state.sections).map((key) => {
+        return (
+          <BooksSection
+            key={key}
+            shelf={key}
+            title={toCapitalizedWords(key)}
+            books={state.sections[key]}
+            allBooks={state.books}
+            onChange={updateSections}
+          ></BooksSection>
+        );
+      })}
+    </div>
+  );
 }
