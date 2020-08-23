@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+``;
 
 import { getAll, update } from "./utils/BooksApi";
 import BooksSection from "./BooksSection";
 
 export default function Home() {
-  
   const [state, setState] = useState({
     books: [],
     sections: {
@@ -62,6 +63,9 @@ export default function Home() {
           ></BooksSection>
         );
       })}
+      <div className="search-link">
+        <Link to="/search"> Search </Link>
+      </div>
     </div>
   );
 }
