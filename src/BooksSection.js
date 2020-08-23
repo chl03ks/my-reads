@@ -1,7 +1,9 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import Book from "./Book";
 
-export default function BooksSection({
+function BooksSection({
   allBooks = [],
   books = [],
   title,
@@ -26,3 +28,13 @@ export default function BooksSection({
     </div>
   );
 }
+
+BooksSection.propTypes = {
+  allBooks: PropTypes.array,
+  books: PropTypes.array,
+  title: PropTypes.string,
+  shelf: PropTypes.string,
+  onChange: PropTypes.func
+}
+
+export default BooksSection;

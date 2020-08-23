@@ -32,8 +32,8 @@ export default function Home() {
     });
   }, []);
 
-  const updateSections = (book, shelf) => {
-    update(book, shelf).then((shelfs) => {
+  const updateSections = (bookId, shelf) => {
+    update(bookId, shelf).then((shelfs) => {
       setState((prevState) => ({ ...prevState, sections: shelfs }));
     });
   };

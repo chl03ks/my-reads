@@ -1,13 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import styles from "./Book.module.css";
 
-export default React.memo((book) => {
-  const { title, authors = [], imageLinks, shelf, onChange } = book;
+const Book = React.memo(({ id, title, authors, imageLinks, shelf, onChange }) => {
   const { smallThumbnail } = imageLinks;
 
   const handleChange = (event) => {
-    onChange(book, event.target.value);
+    onChange(id, event.target.value);
   };
 
   return (
@@ -24,3 +24,13 @@ export default React.memo((book) => {
     </div>
   );
 });
+
+Book.propTypes = {
+  title: PropTypes.string,
+  shelf: PropTypes.string,
+  authors: PropTypes.array,
+  imageLinks: PropTypes.object,
+  onChange: PropTypes.func,
+};
+
+export default Book;
