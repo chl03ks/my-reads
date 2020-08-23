@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import styles from "./Book.module.css";
 
 export default React.memo((book) => {
-  
   const { title, authors = [], imageLinks, shelf, onChange } = book;
   const { smallThumbnail } = imageLinks;
 
