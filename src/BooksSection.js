@@ -8,7 +8,7 @@ function BooksSection({
   books = [],
   title,
   shelf,
-  onChange,
+  updateSections,
 }) {
   const filterBooks = allBooks.filter(({ id }) => books.includes(id));
   return (
@@ -21,7 +21,7 @@ function BooksSection({
             key={book.id}
             {...book}
             shelf={shelf}
-            onChange={onChange}
+            onUpdateShelfs={updateSections}
           ></Book>
         ))}
       </div>
@@ -34,7 +34,7 @@ BooksSection.propTypes = {
   books: PropTypes.array,
   title: PropTypes.string,
   shelf: PropTypes.string,
-  onChange: PropTypes.func
-}
+  onChange: PropTypes.func,
+};
 
 export default BooksSection;

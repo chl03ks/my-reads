@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import styles from "./Book.module.css";
 
-const Book = React.memo(({ id, title, authors, imageLinks, shelf, onChange }) => {
+import { update } from "./utils/BooksApi";
+
+const Book = React.memo((props) => {
+  const {
+    id,
+    title,
+    authors = [],
+    imageLinks,
+    shelf = "none",
+    onUpdateShelfs,
+  } = props;
+
+  const [state, setstate] = useState(shelf);
   const { smallThumbnail } = imageLinks;
 
   const handleChange = (event) => {
-    onChange(id, event.target.value);
+    setstate(event.target.value);
+    update(id, event.target.value).then(onUpdateShelfs);
   };
 
   return (
@@ -15,7 +28,7 @@ const Book = React.memo(({ id, title, authors, imageLinks, shelf, onChange }) =>
       <img className={styles.book_img} src={smallThumbnail} alt="" />
       <h3>{title}</h3>
       <p>{authors.join(", ")}</p>
-      <select value={shelf} onChange={handleChange}>
+      <select value={state} onChange={handleChange}>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
         <option value="read">Read</option>

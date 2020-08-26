@@ -1,41 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-import { getAll, update } from "./utils/BooksApi";
+import useBooks from "./utils/useBooks";
 import BooksSection from "./BooksSection";
 
 export default function Home() {
-  const [state, setState] = useState({
-    books: [],
-    sections: {
-      currentlyReading: [],
-      wantToRead: [],
-      read: [],
-    },
-  });
+  const [state, setState] = useBooks();
 
-  useEffect(() => {
-    getAll().then((books) => {
-      const sections = books.reduce(
-        (prev, curr) => {
-          const { shelf, id } = curr;
-          prev[shelf].push(id);
-          return prev;
-        },
-        {
-          currentlyReading: [],
-          wantToRead: [],
-          read: [],
-        }
-      );
-      setState({ books, sections });
-    });
-  }, []);
-
-  const updateSections = (bookId, shelf) => {
-    update(bookId, shelf).then((shelfs) => {
-      setState((prevState) => ({ ...prevState, sections: shelfs }));
-    });
+  const updateSections = (shelfs) => {
+    setState((prevState) => ({ ...prevState, sections: shelfs }));
   };
 
   const toCapitalizedWords = (name) => {
@@ -58,7 +31,7 @@ export default function Home() {
             title={toCapitalizedWords(key)}
             books={state.sections[key]}
             allBooks={state.books}
-            onChange={updateSections}
+            updateSections={updateSections}
           ></BooksSection>
         );
       })}
