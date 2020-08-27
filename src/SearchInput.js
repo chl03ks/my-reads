@@ -1,25 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import useDebounce from "./utils/useDebounce";
+import { search } from "./utils/BooksApi";
 
-export default function SearchInput({ sendSearch }) {
-  const [state, setState] = useState({ value: '', typing: false, typingTimeout: 0 });
+export default function SearchInput({ onSearchResults }) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const changeName = (event) => {
-    if (state.typingTimeout) {
-      clearTimeout(state.typingTimeout);
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      search(debouncedSearchTerm).then((results) => {
+        onSearchResults(results);
+      });
+    } else {
+      onSearchResults([]);
     }
-
-    setState({
-      value: event.target.value,
-      typing: false,
-      typingTimeout: setTimeout(() => {
-        sendSearch(state.value);
-      }, 4000),
-    });
-  };
+  }, [debouncedSearchTerm]);
 
   return (
-    <div>
-      <input value={state.value} onChange={changeName}></input>
-    </div>
+    <input
+      placeholder="Search.."
+      value={searchTerm}
+      onChange={(event) => setSearchTerm(event.target.value)}
+    />
   );
 }
