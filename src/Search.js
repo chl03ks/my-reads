@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import useBooks from "./utils/useBooks";
+import React, { useState, useCallback } from "react";
 
+import useBooks from "./utils/useBooks";
 import Book from "./Book";
 import SearchInput from "./SearchInput";
 
@@ -11,18 +11,12 @@ export default function Search() {
     message: "",
   });
   const [userBooks, setUserBooks] = useBooks();
-  const { currentlyReading, wantToRead, read } = userBooks.sections;
 
-  const onSearchResults = (results = []) => {
-    if ("error" in results) {
-      setErrorState({ hasError: true, message: results.error });
-      setBooks([]);
-      return;
-    }
-    setErrorState({ hasError: false });
-    const shelfs = [...currentlyReading, ...wantToRead, ...read];
-    const booksWithShelf = results.reduce((prev, current) => {
-      if (shelfs.includes(current.id)) {
+  const determineShelfs = (results, userBooks) => {
+    const { currentlyReading, wantToRead, read } = userBooks.sections;
+    const booksInShelfs = [...currentlyReading, ...wantToRead, ...read];
+    return results.reduce((prev, current) => {
+      if (booksInShelfs.includes(current.id)) {
         for (const shelf in userBooks.sections) {
           if (userBooks.sections[shelf].includes(current.id)) {
             current["shelf"] = shelf;
@@ -34,8 +28,21 @@ export default function Search() {
       prev.push(current);
       return prev;
     }, []);
-    setBooks(booksWithShelf);
   };
+
+  const onSearchResults = useCallback(
+    (results) => {
+      if ("error" in results) {
+        setErrorState({ hasError: true, message: results.error });
+        setBooks([]);
+        return;
+      }
+      setErrorState({ hasError: true });
+      const booksWithShelf = determineShelfs(results, userBooks);
+      setBooks(booksWithShelf);
+    },
+    [userBooks]
+  );
 
   const updateSections = (shelfs) => {
     setUserBooks((prevState) => ({ ...prevState, sections: shelfs }));

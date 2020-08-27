@@ -4,7 +4,7 @@ import { search } from "./utils/BooksApi";
 
 export default function SearchInput({ onSearchResults }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const debouncedSearchTerm = useDebounce(searchTerm);
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -14,7 +14,7 @@ export default function SearchInput({ onSearchResults }) {
     } else {
       onSearchResults([]);
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, onSearchResults]);
 
   return (
     <input
