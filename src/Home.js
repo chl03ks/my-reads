@@ -35,9 +35,7 @@ export default function Home() {
           ></BooksSection>
         );
       })}
-      <div className="search-link">
-        <Link to="/search"> Search </Link>
-      </div>
+      <Link className="search-link" to="/search"></Link>
     </div>
   );
 }

@@ -18,6 +18,7 @@ export default function SearchInput({ onSearchResults }) {
 
   return (
     <input
+      className="search-input"
       placeholder="Search.."
       value={searchTerm}
       onChange={(event) => setSearchTerm(event.target.value)}

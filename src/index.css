@@ -13,3 +13,30 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.search-link {
+  position: sticky;
+  bottom: 0;
+  text-align: center;
+  background: red;
+  height: 50px;
+  width: 50px;
+  display: block;
+  bottom: 1rem;
+  float: right;
+  border-radius: 50%;
+  text-decoration: none;
+}
+
+.search-link::before {
+  content: "+";
+  color: white;
+  vertical-align: -85%;
+}
+
+.search-input {
+  width: 100%;
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 10px;
+}
