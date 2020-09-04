@@ -3,7 +3,7 @@ import React, { useState, useCallback } from "react";
 import useBooks from "./utils/useBooks";
 import Book from "./Book";
 import SearchInput from "./SearchInput";
-
+import { Link } from "react-router-dom";
 
 export default function Search() {
   const [books, setBooks] = useState([]);
@@ -41,6 +41,7 @@ export default function Search() {
       setErrorState({ hasError: true });
       const booksWithShelf = determineShelfs(results, userBooks);
       setBooks(booksWithShelf);
+      setErrorState(false);
     },
     [userBooks]
   );
@@ -51,9 +52,21 @@ export default function Search() {
 
   return (
     <div>
-      <SearchInput onSearchResults={onSearchResults}></SearchInput>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          textAlign: "center",
+        }}
+      >
+        <div style={{ flexGrow: 1 }}>
+          <Link to="/">Home</Link>
+        </div>
+        <SearchInput onSearchResults={onSearchResults}></SearchInput>
+      </div>
       <div className="flex">
-        {errorState.hasError && errorState.message}
+        {errorState.hasError && "No results"}
         {books.map((book) => {
           return (
             <Book key={book.id} {...book} onChange={updateSections}></Book>
