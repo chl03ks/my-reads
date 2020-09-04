@@ -1,5 +1,16 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## My Reads
+This application allows you to place selected books into a designated shelf. Users can also search the Udacity database for books to add to their initial book shelfs. There are two pages. The Homepage displays the three bookshelfs, currently reading, want to read, and read. The search page will allow the user to search for books.
+
+### Prerequisites
+
+- Node.js
+- NPM
+### Installation
+
+Run `yarn` from the command line to install the dependencies
+
 ## Available Scripts
 
 In the project directory, you can run:
